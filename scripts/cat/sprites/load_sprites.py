@@ -93,11 +93,11 @@ class Sprites:
 
     def __init__(self):
         """Class that handles and hold all spritesheets.
-        Size is normally automatically determined by the size
-        of the lineart. If a size is passed, it will override
-        this value."""
+        Size is automatically determined by the size
+        of the lineart when load_all is called. If not
+        yet loaded, defaults to 50."""
         self.symbol_dict = None
-        self.size = None
+        self._size = None
         self.spritesheets = {}
         self.images = {}
         self.sprites = {}
@@ -108,6 +108,17 @@ class Sprites:
         self.load_tints()
 
         self.sheet_layout = self.POSE_DATA["sheet_layout"]
+
+    @property
+    def size(self):
+        """Return the sprite size, defaulting to 50 if not yet determined by load_all."""
+        if self._size is None:
+            return 50
+        return self._size
+
+    @size.setter
+    def size(self, value):
+        self._size = value
 
     def load_tints(self):
         try:
