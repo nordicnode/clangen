@@ -649,7 +649,21 @@ class PatrolOutcome:
                 old_illnesses = list(_cat.illnesses.keys())
                 old_perm_cond = list(_cat.permanent_condition.keys())
 
-                if set(possible_injuries).issubset(
+                # Filter out injuries the cat physically can't have
+                cat_possible = possible_injuries.copy()
+                if "mangled tail" in cat_possible and any(
+                    c in _cat.permanent_condition
+                    for c in ("lost their tail", "born without a tail")
+                ):
+                    cat_possible = [i for i in cat_possible if i != "mangled tail"]
+
+                if not cat_possible:
+                    print(
+                        "WARNING: All possible conditions are already on this cat! (poor kitty)"
+                    )
+                    continue
+
+                if set(cat_possible).issubset(
                     old_injuries + old_illnesses + old_perm_cond
                 ):
                     print(
@@ -657,14 +671,14 @@ class PatrolOutcome:
                     )
                     continue
 
-                give_injury = choice(possible_injuries)
+                give_injury = choice(cat_possible)
                 # If the cat already has this injury, reroll it to get something new
                 while (
                     give_injury in old_injuries
                     or give_injury in old_illnesses
                     or give_injury in old_perm_cond
                 ):
-                    give_injury = choice(possible_injuries)
+                    give_injury = choice(cat_possible)
 
                 if give_injury in INJURIES:
                     _cat.get_injured(give_injury, lethal=lethal, potential_scars=scars)

@@ -264,6 +264,10 @@ def new_thought(
     :param other_cat: The other cat involved
     :param other_clan_id: An other_clan ID. If a thought requires another Clan to be involved, this is the Clan that will be used.
     """
+    # Dead babies lack specific death thoughts, so return a generic peaceful one
+    if main_cat.dead and main_cat.age.is_baby():
+        return i18n.t("defaults.baby_death_thought")
+
     # get possible thoughts
     try:
         # checks if the cat is Rick Astley to give the rickroll thought, otherwise proceed as usual

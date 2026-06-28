@@ -182,6 +182,8 @@ class Personality:
 
     def set_kit(self, kit: bool):
         """Switch the trait-type. True for kit, False for normal"""
+        if self.kit == kit:
+            return
         self.kit = kit
         if not self.is_trait_valid():
             self.choose_trait()
