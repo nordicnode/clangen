@@ -323,11 +323,15 @@ class Screens:
         """this hides the mute buttons, so they are no longer visible
         or interact-able. It does not delete the buttons from memory."""
 
-        Screens.menu_buttons["mute_button"].hide()
-        Screens.menu_buttons["unmute_button"].hide()
+        if "mute_button" in Screens.menu_buttons:
+            Screens.menu_buttons["mute_button"].hide()
+        if "unmute_button" in Screens.menu_buttons:
+            Screens.menu_buttons["unmute_button"].hide()
 
     def show_mute_buttons(self):
         """This shows all mute buttons, and makes them interact-able."""
+        if "mute_button" not in self.menu_buttons or "unmute_button" not in self.menu_buttons:
+            return
 
         if game.audio.muted or game.audio.disabled or game_setting_get("audio_mute"):
             self.menu_buttons["unmute_button"].show()

@@ -2442,6 +2442,13 @@ class ProfileScreen(Screens):
                         manager=MANAGER,
                     )
 
+        # Dangerous Tab
+        elif self.open_tab == "dangerous":
+            if self.the_cat.dead:
+                self.kill_cat_button.disable()
+            else:
+                self.kill_cat_button.enable()
+
         # Conditions Tab
         elif self.open_tab == "conditions":
             self.display_conditions_page()
