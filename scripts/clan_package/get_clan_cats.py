@@ -81,7 +81,7 @@ def get_living_clan_cat_count(Cat):
     """
     count = 0
     for the_cat in Cat.all_cats.values():
-        if not the_cat.status.alive_in_player_clan:
+        if not the_cat.status.alive_in_player_clan or the_cat.dead:
             continue
         count += 1
     return count

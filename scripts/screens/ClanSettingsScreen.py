@@ -10,6 +10,7 @@ import pygame_gui
 import ujson
 
 from scripts.cat.cats import Cat
+from scripts.game_structure import game
 from scripts.game_structure.game.settings import game_setting_get
 from ..ui.elements.checkbox import UICheckbox
 from ..ui.elements.modified_scrolling_container import UIModifiedScrollingContainer
@@ -81,6 +82,8 @@ class ClanSettingsScreen(Screens):
                 open_data_dir()
                 return
             elif event.ui_element == self.game_settings_button:
+                if self.settings_changed and game.clan is not None:
+                    game.clan.save_clan()
                 self.change_screen(GameScreen.SETTINGS)
             elif event.ui_element == self.relation_settings_button:
                 self.open_relation_settings()
